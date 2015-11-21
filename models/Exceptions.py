@@ -1,0 +1,13 @@
+"""
+    Some custom-made exceptions that are raised throughout the program.
+"""
+
+class BaseError(Exception):
+    def __init__(self, message=None):
+        if message is not None:
+            self.__message = message
+        else:
+            self.__message = "Can't operate on numbers with different bases."
+
+    def __str__(self):
+        return self.__message
