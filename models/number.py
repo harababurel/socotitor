@@ -3,6 +3,7 @@
 """
 from models.exceptions import *
 from static.settings import *
+from copy import deepcopy
 
 class Number:
     """
@@ -27,6 +28,9 @@ class Number:
             raise BaseError("The base %i is not defined." % base)
 
         self.__base = base
+
+        if not isinstance(value, str):
+            raise TypeError("The value must be a <class 'str'>, not %r." % type(value))
 
         if value[0] == '-':     # if the minus sign is provided
             self.__sign = 1     # then the number is negative
@@ -60,6 +64,9 @@ class Number:
     def getSign(self):
         return self.__sign
 
+    def setSign(self, sign):
+        self.__sign = sign
+
     def getValue(self):
         return ['', '-'][self.isNegative()] + ''.join([digitToSymbol[x] for x in self.getDigits()][::-1])
 
@@ -79,6 +86,81 @@ class Number:
 
     def getSize(self):
         return self.__size
+
+    def __neg__(self):
+        """
+            Method implements behaviour for negation (e.g. -someObject)
+        """
+
+        negative = deepcopy(self)
+
+        if negative.getDigits() == [0]:
+            return negative
+
+        negative.setSign([1, 0][negative.getSign()])
+        return negative
+
+    def __abs__(self):
+        """
+            Method implements behaviour for absolute value (e.g |someObject|)
+        """
+
+        if self.isNegative():
+            return -self
+        return self
+
+    def compare(self, a, b):
+        """
+            Method compares two numbers in the same base.
+            TODO: make it work for different bases.
+
+            Method returns:
+                negative, if a < b
+                0,        if a = b
+                positive, if a > b
+        """
+
+        if a.getBase() != a.getBase():
+            raise BaseError()
+
+        # different signs
+        if a.isNegative() and b.isPositive():
+            return -1
+        if a.isPositive() and b.isNegative():
+            return 1
+
+        # same signs, different sizes
+        if a.getSize() < b.getSize():
+            return -1 if a.isPositive() else 1
+        if a.getSize() > b.getSize():
+            return 1 if a.isPositive() else 1
+
+        # same signs, same sizes, different digits
+        for x in zip(a.getDigits(), b.getDigits()):
+            if x[0] == x[1]:
+                continue
+            return -1 if x[0] < x[1] else 1
+
+        # same signs, same sizes, same digits (-> equal)
+        return 0
+
+    def __lt__(self, other):
+        return self.compare(self, other) < 0
+
+    def __le__(self, other):
+        return self.compare(self, other) <= 0
+
+    def __eq__(self, other):
+        return self.compare(self, other) == 0
+
+    def __ne__(self, other):
+        return self.compare(self, other) != 0
+
+    def __ge__(self, other):
+        return self.compare(self, other) >= 0
+
+    def __gt__(self, other):
+        return self.compare(self, other) > 0
 
     def __add__(self, other):
         """
