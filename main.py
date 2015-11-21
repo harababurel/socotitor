@@ -8,9 +8,13 @@ from utils.random import *
 # y = Number('1010110110', 2)
 # z = Number('12AB', 16)
 
-t = randomNumber()
+u = randomNumber(base=16)
+v = randomNumber(base=16)
 
-print(t)
+
+print(u)
+print(v)
+print(u+v)
 
 # print(x)
 # print(y)

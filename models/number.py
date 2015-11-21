@@ -42,7 +42,7 @@ class Number:
         self.__digits = [symbolToDigit[x] for x in value[::-1]]
         self.__size = len(self.__digits)
 
-        if int(max(self.__digits)) >= base:
+        if max(self.__digits) >= base:
             raise DigitError()
 
     def __repr__(self):
@@ -98,7 +98,7 @@ class Number:
         if carry > 0:
             resultDigits.append(carry)
 
-        resultValue = int(''.join([digitToSymbol[digit] for digit in resultDigits[::-1]]))
+        resultValue = ''.join([digitToSymbol[digit] for digit in resultDigits[::-1]])
         return Number(resultValue, self.getBase())
 
 
