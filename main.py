@@ -8,13 +8,25 @@ from utils.random import *
 # y = Number('1010110110', 2)
 # z = Number('12AB', 16)
 
-u = randomNumber(base=16)
-v = randomNumber(base=16)
+u = randomNumber(base=10)
+v = randomNumber(base=10)
+
+a = int(u.getValue())
+b = int(v.getValue())
 
 
-print(u)
-print(v)
-print(u+v)
+print(u.getValue())
+print(a)
+print()
+
+print(v.getValue())
+print(b)
+print()
+
+print((u*v).getValue())
+print(a*b)
+
+assert (u*v).getValue() == str(a*b)
 
 # print(x)
 # print(y)

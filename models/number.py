@@ -57,6 +57,9 @@ class Number:
     def getBase(self):
         return self.__base
 
+    def getSign(self):
+        return self.__sign
+
     def getValue(self):
         return ['', '-'][self.isNegative()] + ''.join([digitToSymbol[x] for x in self.getDigits()][::-1])
 
@@ -101,4 +104,35 @@ class Number:
         resultValue = ''.join([digitToSymbol[digit] for digit in resultDigits[::-1]])
         return Number(resultValue, self.getBase())
 
+    def __mul__(self, other):
+        """
+            Method returns the result of self * other.
+        """
 
+        if self.getBase() != other.getBase():
+            raise BaseError()
+
+        resultSize = self.getSize() + other.getSize() - 1;
+        resultDigits = [0 for i in range(0, resultSize)]
+        resultBase = self.getBase()
+
+        for i, x in enumerate(self.getDigits()):
+            for j, y in enumerate(other.getDigits()):
+                resultDigits[i+j] += x * y
+
+        carry = 0
+        for i in range(0, resultSize):
+            resultDigits[i] += carry
+
+            carry = resultDigits[i] // resultBase
+            resultDigits[i] %= resultBase
+
+        if carry:
+            resultDigits.append(carry)
+
+        resultValue = ''.join([digitToSymbol[x] for x in resultDigits[::-1]])
+
+        if self.getSign() != other.getSign():
+            resultValue = '-' + resultValue
+
+        return Number(resultValue, self.getBase())
