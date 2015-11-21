@@ -11,3 +11,13 @@ class BaseError(Exception):
 
     def __str__(self):
         return self.__message
+
+class DigitError(Exception):
+    def __init__(self, message = None):
+        if message is not None:
+            self.__message = message
+        else:
+            self.__message = "The digits do not belong to the base."
+
+    def __str__(self):
+        return self.__message

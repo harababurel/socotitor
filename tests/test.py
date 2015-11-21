@@ -2,14 +2,15 @@
     Module implements some tests.
 """
 
-from random import randint
-from models.Number import *
+from random import randint, choice
+from models.number import *
+from static.settings import *
 
 class Test:
     def __init__(self):
         pass
 
-    def testAddition(self, testCount=100, valmax=10**18, verbose=False):
+    def testAddition(self, testCount=SETTINGS['testCount'], valmax=SETTINGS['valmax'], verbose=SETTINGS['verbose']):
         """
             Method tests the "+" operator on Number objects in base 10.
         """
@@ -18,11 +19,11 @@ class Test:
 
             x = randint(0, upperBound)
             y = randint(0, upperBound)
-            base = randint(2, 10)
+            base = choice([2, 3, 4, 5, 6, 7, 8, 9, 10, 16])
 
 
             expected = str(x+y)
-            actual = (Number(x, base) + Number(y, base)).getValue()
+            actual = (Number(str(x), base) + Number(str(y), base)).getValue()
 
             if verbose:
                 print("Addition test #%i" % (i+1))
@@ -32,7 +33,7 @@ class Test:
             assert expected == actual
 
 
-    def testEverything(self, verbose=False):
+    def testEverything(self, verbose=SETTINGS['verbose']):
         alright = True
         try:
             self.testAddition(verbose=verbose)
