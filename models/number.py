@@ -162,21 +162,22 @@ class Number:
     def __gt__(self, other):
         return self.compare(self, other) > 0
 
-    def __add__(self, other):
+    def positiveAddition(self, a, b):
         """
-            Method returns the result of self + other.
+            Method returns the result of a + b.
+            Note: <a> and <b> must both be positive.
+            An exception is raised if this does not hold.
         """
-
-        if self.getBase() != other.getBase():
-            raise BaseError()
+        if a.isNegative() or b.isNegative():
+            raise SignError()
 
         resultDigits = []
         carry = 0
-        for i in range(0, max(self.getSize(), other.getSize())):
-            currentDigit = self.getDigitAtPos(i) + other.getDigitAtPos(i) + carry
+        for i in range(0, max(a.getSize(), b.getSize())):
+            currentDigit = a.getDigitAtPos(i) + b.getDigitAtPos(i) + carry
 
-            carry = currentDigit // self.getBase()
-            currentDigit %= self.getBase()
+            carry = currentDigit // a.getBase()
+            currentDigit %= a.getBase()
 
             resultDigits.append(currentDigit)
 
@@ -184,8 +185,92 @@ class Number:
             resultDigits.append(carry)
 
         resultValue = ''.join([digitToSymbol[digit] for digit in resultDigits[::-1]])
-        return Number(resultValue, self.getBase())
+        return Number(resultValue, a.getBase())
 
+    def positiveSubtraction(self, a, b):
+        """
+            Method returns the result of a - b.
+            Note: <a> must be greater than (or equal to) <b>.
+            <a> and <b> must have the same base.
+            An exception is raised if this does not hold.
+        """
+
+        """
+        void Subtract(Huge A, Huge B)
+        /* A <- A-B */
+        { int i, T=0;
+         
+          for (i=B[0]+1;i<=A[0];) B[i++]=0;
+          for (i=1;i<=A[0];i++)
+            A[i]+= (T=(A[i]-=B[i]+T)<0) ? 10 : 0;
+
+            /* Adica A[i]=A[i]-(B[i]+T);
+               if (A[i]<0) T=1; else T=0;
+               if (T) A[i]+=10; */
+
+          while (!A[A[0]]) A[0]--;
+        }
+        """
+
+        if a.getBase() != b.getBase():
+            raise BaseError()
+
+        if a.isNegative() or b.isNegative():
+            raise SignError()
+
+        if a < b:
+            raise ComparisonError()
+
+        carry = 0
+        resultDigits = []
+        for i in range(0, a.getSize()):
+
+            currentDigit = a.getDigitAtPos(i) - carry
+            if i < b.getSize():
+                currentDigit -= b.getDigitAtPos(i)
+
+            carry = 1 if currentDigit < 0 else 0
+            if carry:
+                currentDigit += a.getBase()
+
+            resultDigits.append(currentDigit)
+
+        while len(resultDigits) > 1 and resultDigits[-1] == 0:
+            resultDigits.pop()
+
+        resultValue = ''.join([digitToSymbol[digit] for digit in resultDigits[::-1]])
+        return Number(resultValue, a.getBase())
+
+    def __add__(self, other):
+        """
+            Method returns the result of self + other.
+            If self and other have the same sign, then sameSignAddition() is applied.
+            Otherwise, sameSignSubtraction() is applied.
+        """
+
+        if self.getBase() != other.getBase():
+            raise BaseError()
+
+        if self.getSign() == other.getSign():
+            if self.isPositive():
+                return self.positiveAddition(self, other)
+            else:
+                return -self.positiveAddition(abs(self), abs(other))
+        else:
+            if abs(self) >= abs(other):
+
+                if self.isPositive():
+                    # greater positive + smaller negative = positive result
+                    return self.positiveSubtraction(abs(self), abs(other))
+                if self.isNegative():
+                    return -self.positiveSubtraction(abs(self), abs(other))
+            else:
+                # smaller positive + greater negative = negative result
+
+                if self.isNegative():
+                    return self.positiveSubtraction(abs(other), abs(self))
+                if self.isPositive():
+                    return -self.positiveSubtraction(abs(other), abs(self))
     def __mul__(self, other):
         """
             Method returns the result of self * other.
