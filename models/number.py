@@ -136,7 +136,7 @@ class Number:
             return 1 if a.isPositive() else 1
 
         # same signs, same sizes, different digits
-        for x in zip(a.getDigits(), b.getDigits()):
+        for x in zip(a.getDigits()[::-1], b.getDigits()[::-1]):   # fixed bug: digits should be taken in reverse order
             if x[0] == x[1]:
                 continue
             return -1 if x[0] < x[1] else 1
@@ -271,6 +271,13 @@ class Number:
                     return self.positiveSubtraction(abs(other), abs(self))
                 if self.isPositive():
                     return -self.positiveSubtraction(abs(other), abs(self))
+
+    def __sub__(self, other):
+        """
+            a - b == a + (-b)
+        """
+        return self.__add__(-other)
+
     def __mul__(self, other):
         """
             Method returns the result of self * other.

@@ -9,11 +9,13 @@ from utils.random import *
 # z = Number('12AB', 16)
 
 u = randomNumber(sign=1, size=3, base=10)
-v = randomNumber(sign=0, size=3, base=10)
+v = randomNumber(size=3, base=10)
 
 a = int(u.getValue())
 b = int(v.getValue())
 
+print((u+v).getValue() + " should be " + str(a+b))
+print((u-v).getValue() + " should be " + str(a-b))
 
 print(' u  = ' + u.getValue())
 print('|u| = ' + abs(u).getValue())
@@ -25,5 +27,3 @@ print('|v| = ' + abs(v).getValue())
 print(' b  = ' + str(b))
 print()
 
-print((u+v).getValue())
-print(a+b)
