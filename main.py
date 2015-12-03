@@ -26,7 +26,8 @@ print(' b  = ' + str(b))
 print()
 
 
-quotient, remainder = Number.integerDivision(Number, u, v)
+quotient = u//v
+remainder = u%v
 
 print("DIVISION:")
 print(quotient.getValue(), remainder.getValue())

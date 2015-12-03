@@ -314,6 +314,23 @@ class Number:
 
         return Number(resultValue, self.getBase())
 
+    def __floordiv__(self, other):
+        """
+            Method returns the quotient of self / other.
+            Raises some exception if self and other have different bases,
+            or if other is 0.
+        """
+        return self.integerDivision(self, other)[0]
+
+    def __mod__(self, other):
+        """
+            Method returns the remainder self % other.
+            Raises some exception if self and other have different bases,
+            or if other is 0.
+        """
+        return self.integerDivision(self, other)[1]
+
+
     def integerDivision(self, a, b):
         """
             Method returns a tuple (quotient, remainder) representing
