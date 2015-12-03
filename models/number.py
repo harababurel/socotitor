@@ -46,7 +46,7 @@ class Number:
         self.__digits = [symbolToDigit[x] for x in value[::-1]]
         self.__size = len(self.__digits)
 
-        if max(self.__digits) >= base:
+        if len(self.__digits) > 0 and max(self.__digits) >= base:
             raise DigitError()
 
     def __repr__(self):
@@ -304,9 +304,54 @@ class Number:
         if carry:
             resultDigits.append(carry)
 
+        while len(resultDigits) > 1 and resultDigits[-1] == 0:
+            resultDigits.pop()
+
         resultValue = ''.join([digitToSymbol[x] for x in resultDigits[::-1]])
 
         if self.getSign() != other.getSign():
             resultValue = '-' + resultValue
 
         return Number(resultValue, self.getBase())
+
+    def integerDivision(self, a, b):
+        """
+            Method returns a tuple (quotient, remainder) representing
+            the result of the integer division a / b.
+
+            Note: <a> and <b> should be in the same base
+                  <b> not zero.
+        """
+
+        if b == Number('0', b.getBase()):
+            raise ZeroDivisionError()
+
+        if a.getBase() != b.getBase():
+            raise BaseError()
+
+        quotientDigits = []
+        rem = Number('0', a.getBase())
+        for i in abs(a).getValue():
+            rem *= Number('10', rem.getBase())
+            rem += Number(i, rem.getBase())
+
+            quotientDigits.append(0)
+
+            while abs(b) <= abs(rem):
+                quotientDigits[-1] += 1
+                rem -= abs(b)
+
+        quotientDigits = quotientDigits[::-1]
+        while len(quotientDigits) > 1 and quotientDigits[-1] == 0:
+            quotientDigits.pop()
+
+        quotientValue = ''.join([digitToSymbol[digit] for digit in quotientDigits[::-1]])
+
+        quotient = Number(quotientValue, a.getBase())
+
+        if a.getSign() != b.getSign():
+            quotient = -quotient
+            quotient -= Number('1', quotient.getBase())
+
+        rem = a - b * quotient
+        return (quotient, rem)
