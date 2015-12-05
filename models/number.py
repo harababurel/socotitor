@@ -1,42 +1,55 @@
 """
-    Module implements the Number class.
+.. module:: number
+    :platform: Unix, Windows
+    :synopsis: Module implements the Number class
+
+.. moduleauthor:: Sergiu Puscas <srg.pscs@gmail.com>
+
 """
 from models.exceptions import *
 from static.settings import *
 from copy import deepcopy
 
 class Number:
-    """
-        The Number class models an integer value in some base.
-        Attributes:
-            self.__base:   positive int -> the base of the number
-            self.__sign:   0 or 1       -> the sign of the number (0 for positive, 1 for negative)
-            self.__digits: list of ints -> the digits of the number, in reverse order
-            self.__size:   int          -> the number of digits
+    """The Number class models an integer value represented in some base.
+    Attributes:
+        self.__base:   positive int -> the base of the number
+        self.__sign:   0 or 1       -> the sign of the number (0 for positive, 1 for negative)
+        self.__digits: list of ints -> the digits of the number, in reverse order
+        self.__size:   int          -> the number of digits
     """
 
     def __init__(self, value='0', base=10):
-        """
-            If not provided, the base is considered to be 10,
-            and the value is considered to be '0'.
+        """This method implements the behavior of instantiating a Number object.
+        Args:
+            value (str): The symbol representation of the number (e.g. -123, 4AF).
+            base  (int): The base in which the number is represented (2 thru 10, and 16).
 
-            Arguments:
-                value: string       (optional)
-                base:  positive int (optional)
-        """
-        if base < 1:
-            raise BaseError("The base %i is not defined." % base)
+        Returns:
+            nothing
 
-        self.__base = base
+        Raises:
+            BaseError:  if the base is not in the valid set (2:10, 16).
+            TypeError:  if the value argument is not a string, or the base is not an integer.
+            DigitError: if the digits in the value do not belong to the given base.
+        """
+
+        if not isinstance(base, int):
+            raise TypeError("The base must be a <class 'int'>, not %r." % type(base))
 
         if not isinstance(value, str):
             raise TypeError("The value must be a <class 'str'>, not %r." % type(value))
 
-        if value[0] == '-':     # if the minus sign is provided
+        if not base in [2, 3, 4, 5, 6, 7, 8, 9, 10, 16]:
+            raise BaseError("The base %i is not defined." % base)
+
+        self.__base = base
+
+        if value[0] == '-':     # if the minus sign is provided in the value
             self.__sign = 1     # then the number is negative
             value = value[1:]   # and the sign can be erased
 
-        elif value[0] == '+':   # if the plus sign is provided
+        elif value[0] == '+':   # if the plus sign is provided in the value
             self.__sign = 0     # then the number is positive
             value = value[1:]   # and the sign can be erased
 
@@ -50,48 +63,84 @@ class Number:
             raise DigitError()
 
     def __repr__(self):
-        """
-            The format for representing a number in some base is:
+        """This method defines the way in which a Number object represents itself.
+        The format for representing a number in some base is:
             <value> + '_' + <base>
 
-            Examples: 5_10, -1010110_2, 123_4
+            Examples: 5_10, -1010110_2, 123_16
+
+        Returns:
+            **str**: the representation of the number.
         """
         return "%s_%s" % (self.getValue(), self.__base)
 
     def getBase(self):
+        """Returns:
+            **int**: the base of *self*.
+        """
         return self.__base
 
     def getSign(self):
+        """Returns:
+            **int**: the sign bit of *self*.
+        """
         return self.__sign
 
     def setSign(self, sign):
+        """Method changes the sign bit of the number.
+        Arguments:
+            sign (**int**): the new sign bit.
+
+        Returns:
+            nothing
+        """
         self.__sign = sign
 
     def getValue(self):
+        """Method builds the human-readable symbol representation of *self*, without specifying the base (e.g. 123BFF)
+        Returns:
+            **str**: the representation of *self*.
+        """
         return ['', '-'][self.isNegative()] + ''.join([digitToSymbol[x] for x in self.getDigits()][::-1])
 
     def getDigits(self):
+        """Returrns:
+            **list of int**: a list containing the digits of *self* (each value belongs to [0, 15]).
+        """
         return self.__digits
 
     def getDigitAtPos(self, i):
+        """Returns:
+            **int**: the digit of *self* at some position *i*
+                     0, if *i* is not a valid position.
+         """
         if 0 <= i and i < self.getSize():
             return int(self.getDigits()[i])
         return 0
 
     def isPositive(self):
+        """Returns:
+            **bool**: whether or not *self* is a positive number.
+        """
         return self.__sign == 0
 
     def isNegative(self):
+        """Returns:
+            **bool**: whether or not *self* is a negative number.
+        """
         return self.__sign == 1
 
     def getSize(self):
+        """Returns:
+            **int**: the number of digits of *self*.
+        """
         return self.__size
 
     def __neg__(self):
+        """Method implements behaviour for negation (e.g. -someObject)
+        Returns:
+            **Number**: the symmetric of *self* with respect to integer addition.
         """
-            Method implements behaviour for negation (e.g. -someObject)
-        """
-
         negative = deepcopy(self)
 
         if negative.getDigits() == [0]:
@@ -101,25 +150,31 @@ class Number:
         return negative
 
     def __abs__(self):
+        """Method implements behaviour for absolute value (e.g |someObject|)
+        Returns:
+            **Number**: the absolute value of *self*.
         """
-            Method implements behaviour for absolute value (e.g |someObject|)
-        """
-
         if self.isNegative():
             return -self
         return self
 
     def compare(self, a, b):
-        """
-            Method compares two numbers in the same base.
-            TODO: make it work for different bases.
+        """Method compares two numbers in the same base.
+        TODO: maybe make it work for different bases.
 
-            Method returns:
+        Args:
+            a (Number): the left term of the comparison.
+            b (Number): the right term of the comparison.
+
+        Returns:
+            **int**:
                 negative, if a < b
                 0,        if a = b
                 positive, if a > b
-        """
 
+        Raises:
+            BaseError: if a and b have different bases.
+        """
         if a.getBase() != a.getBase():
             raise BaseError()
 
@@ -145,29 +200,63 @@ class Number:
         return 0
 
     def __lt__(self, other):
+        """Method implements the behavior of the '<' operator.
+        Returns:
+            **bool**: whether or not *self* < *other*.
+        """
         return self.compare(self, other) < 0
 
     def __le__(self, other):
+        """Method implements the behavior of the '<=' operator.
+        Returns:
+            **bool**: whether or not *self* <= *other*.
+        """
         return self.compare(self, other) <= 0
 
     def __eq__(self, other):
+        """Method implements the behavior of the '==' operator.
+        Returns:
+            **bool**: whether or not *self* == *other*.
+        """
         return self.compare(self, other) == 0
 
     def __ne__(self, other):
+        """Method implements the behavior of the '!=' operator.
+        Returns:
+            **bool**: whether or not *self* != *other*.
+        """
         return self.compare(self, other) != 0
 
     def __ge__(self, other):
+        """Method implements the behavior of the '>=' operator.
+        Returns:
+            **bool**: whether or not *self* >= *other*.
+        """
         return self.compare(self, other) >= 0
 
     def __gt__(self, other):
+        """Method implements the behavior of the '>' operator.
+        Returns:
+            **bool**: whether or not *self* > *other*.
+        """
         return self.compare(self, other) > 0
 
     def positiveAddition(self, a, b):
+        """Method implements the addition algorithm for positive integers.
+        Args:
+            a (Number): the left term of the addition.
+            b (Number): the right term of the addition.
+
+        Returns:
+            **Number**: the result of a + b.
+
+        Raises:
+            **BaseError**: if a and b are not written in the same base.
+            **SignError**: if a is negative or b is negative.
         """
-            Method returns the result of a + b.
-            Note: <a> and <b> must both be positive.
-            An exception is raised if this does not hold.
-        """
+        if a.getBase() != b.getBase():
+            raise BaseError()
+
         if a.isNegative() or b.isNegative():
             raise SignError()
 
@@ -188,28 +277,18 @@ class Number:
         return Number(resultValue, a.getBase())
 
     def positiveSubtraction(self, a, b):
-        """
-            Method returns the result of a - b.
-            Note: <a> must be greater than (or equal to) <b>.
-            <a> and <b> must have the same base.
-            An exception is raised if this does not hold.
-        """
+        """Method implements the subtraction algorithm for positive integers (a > b).
+        Args:
+            a (Number): the 'descazut'.
+            b (Number): the 'scazator'.
 
-        """
-        void Subtract(Huge A, Huge B)
-        /* A <- A-B */
-        { int i, T=0;
-         
-          for (i=B[0]+1;i<=A[0];) B[i++]=0;
-          for (i=1;i<=A[0];i++)
-            A[i]+= (T=(A[i]-=B[i]+T)<0) ? 10 : 0;
+        Returns:
+            **Number**: the result of a - b.
 
-            /* Adica A[i]=A[i]-(B[i]+T);
-               if (A[i]<0) T=1; else T=0;
-               if (T) A[i]+=10; */
-
-          while (!A[A[0]]) A[0]--;
-        }
+        Raises:
+            **BaseError**:       if a and b are not written in the same base.
+            **SignError**:       if a is negative or b is negative.
+            **ComparisonError**: if a < b
         """
 
         if a.getBase() != b.getBase():
@@ -242,9 +321,15 @@ class Number:
         return Number(resultValue, a.getBase())
 
     def __add__(self, other):
-        """
-            Method returns the result of self + other.
-            If self and other have the same sign, then sameSignAddition() is applied.
+        """Method implements the behavior of the '+' operator.
+        Returns:
+            **Number**: the result of *self* + *other*.
+
+        Raises:
+            **BaseError**: if *self* and *other* are not represented in the same base.
+
+        Note:
+            If *self* and *other* have the same sign, then sameSignAddition() is applied.
             Otherwise, sameSignSubtraction() is applied.
         """
 
@@ -273,14 +358,22 @@ class Number:
                     return -self.positiveSubtraction(abs(other), abs(self))
 
     def __sub__(self, other):
-        """
-            a - b == a + (-b)
+        """Method implements the behavior of the '-' operator.
+        Returns:
+            **Number**: the result of *self* - *other*.
+
+        Note:
+            The idea is that a - b == a + (-b)
         """
         return self.__add__(-other)
 
     def __mul__(self, other):
-        """
-            Method returns the result of self * other.
+        """Method implements the behavior of the '\*' operator.
+        Returns:
+            **Number**: the result of *self* \* *other*.
+
+        Raises:
+            **BaseError**: if *self* and *other* are not represented in the same base.
         """
 
         if self.getBase() != other.getBase():
@@ -315,29 +408,40 @@ class Number:
         return Number(resultValue, self.getBase())
 
     def __floordiv__(self, other):
-        """
-            Method returns the quotient of self / other.
-            Raises some exception if self and other have different bases,
-            or if other is 0.
+        """Method implements the behavior of the '//' operator.
+        Returns:
+            **Number**: the quotient of *self* / *other*.
+
+        Raises:
+            **BaseError**:         if *self* and *other* are not represented in the same base.
+            **ZeroDivisionError**: if *other* is 0.
         """
         return self.integerDivision(self, other)[0]
 
     def __mod__(self, other):
-        """
-            Method returns the remainder self % other.
-            Raises some exception if self and other have different bases,
-            or if other is 0.
+        """Method implements the behavior of the '%' operator.
+        Returns:
+            **Number**: the remainder of *self* / *other*.
+
+        Raises:
+            **BaseError**:         if *self* and *other* are not represented in the same base.
+            **ZeroDivisionError**: if *other* is 0.
         """
         return self.integerDivision(self, other)[1]
 
 
     def integerDivision(self, a, b):
-        """
-            Method returns a tuple (quotient, remainder) representing
-            the result of the integer division a / b.
+        """Method implements the integer division algorithm.
+        Args:
+            a (Number): the 'deimpartit'
+            b (Number): the 'impartitor'
 
-            Note: <a> and <b> should be in the same base
-                  <b> not zero.
+        Returns
+            (Number, Number): a tuple (quotient, remainder) representing the result of the integer division *a* / *b*.
+
+        Raises:
+            **BaseError**:         if *self* and *other* are not represented in the same base.
+            **ZeroDivisionError**: if *other* is 0.
         """
 
         if b == Number('0', b.getBase()):
@@ -374,10 +478,15 @@ class Number:
         return (quotient, rem)
 
     def convertBySubstitution(self, newBase):
-        """
-            Method converts self to newBase.
-            It assumes that the destination base is greater
-            than the source base. If not, a BaseError is raised.
+        """Method implements the substitution method for converting a number into a **greater** base.
+        Args:
+            newBase (int): the destination base of the conversion.
+
+        Returns:
+            **Number**: the representation of *self* in the base *newBase*.
+
+        Raises:
+            **BaseError**: if the destination base is not greater than the current base.
         """
 
         if self.getBase() > newBase:
@@ -392,17 +501,20 @@ class Number:
 
         return ans
 
-    def rapidConversion(self, x, newBase):
+    def rapidConversion(self newBase):
         """
             Method returns the number x written in newBase.
             It assumes that (x.getBase(), newBase) belongs to:
             [(2, 4), (2, 8), (2, 16), (3, 9) (4, 16)] and symmetrics.
         """
 
+        """
         leastBase = min(x.getBase(), newBase)
         greatestBase = max(x.getBase(), newBase)
 
         if not greatestBase in [leastBase**2, leastBase**3, leastBase**4]:
             raise BaseError("Rapid conversions only work on bases that are a power of each other.")
-
+        """
         # TODO: implement the actual method
+
+        return
