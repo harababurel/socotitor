@@ -372,3 +372,37 @@ class Number:
 
         rem = a - b * quotient
         return (quotient, rem)
+
+    def convertBySubstitution(self, newBase):
+        """
+            Method converts self to newBase.
+            It assumes that the destination base is greater
+            than the source base. If not, a BaseError is raised.
+        """
+
+        if self.getBase() > newBase:
+            raise BaseError("Substitution method works best for converting to a larger base. Please use the successive division method instead.")
+
+        ans = Number('0', newBase)
+        for symbol in abs(self).getValue():
+            ans = ans * Number(digitToSymbol[self.getBase()], newBase) + Number(symbol, newBase)
+
+        if self.isNegative():
+            ans = -ans
+
+        return ans
+
+    def rapidConversion(self, x, newBase):
+        """
+            Method returns the number x written in newBase.
+            It assumes that (x.getBase(), newBase) belongs to:
+            [(2, 4), (2, 8), (2, 16), (3, 9) (4, 16)] and symmetrics.
+        """
+
+        leastBase = min(x.getBase(), newBase)
+        greatestBase = max(x.getBase(), newBase)
+
+        if not greatestBase in [leastBase**2, leastBase**3, leastBase**4]:
+            raise BaseError("Rapid conversions only work on bases that are a power of each other.")
+
+        # TODO: implement the actual method

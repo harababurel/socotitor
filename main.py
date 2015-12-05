@@ -41,3 +41,10 @@ print("ADDITION/SUBTRACTION:")
 print((u+v).getValue() + " should be " + str(a+b))
 print((u-v).getValue() + " should be " + str(a-b))
 
+print()
+print('-'*40)
+print()
+
+print(u)
+u = u.convertBySubstitution(16)
+print(u)
