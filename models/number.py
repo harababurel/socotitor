@@ -501,7 +501,7 @@ class Number:
 
         return ans
 
-    def rapidConversion(self newBase):
+    def rapidConversion(self, newBase):
         """
             Method returns the number x written in newBase.
             It assumes that (x.getBase(), newBase) belongs to:
