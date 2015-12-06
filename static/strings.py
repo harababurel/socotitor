@@ -17,7 +17,14 @@ STRINGS = {
                 "|    c    | Perform a conversion using the suggested method.         |\n" +
                 "|    h    | Display this prompt.                                     |\n" +
                 "|    x    | Exit the application.                                    |\n" +
-                "+---------+----------------------------------------------------------+\n"
+                "+---------+----------------------------------------------------------+\n",
+        'operationNames': {
+                    '+': 'an addition',
+                    '-': 'a subtraction',
+                    '*': 'a multiplication',
+                    '/': 'a division',
+                    'c': 'a conversion'
+                    }
                 }
 
 

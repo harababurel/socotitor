@@ -18,26 +18,41 @@ class Console():
             if command == '':
                 continue
 
-            elif command == '+':
-                print("You chose to perform an addition.")
+            elif command in ['+', '-', '*', '/']:
+                print("You chose to perform %s." % STRINGS['operationNames'][command])
 
                 base = self.readBase()
                 leftTerm = self.readNumber(base)
                 rightTerm = self.readNumber(base)
 
+                try:
+                    if command == '+':
+                        result = leftTerm + rightTerm
+                    elif command == '-':
+                        result = leftTerm - rightTerm
+                    elif command == '*':
+                        result = leftTerm * rightTerm
+                    elif command == '/':
+                        result = (leftTerm // rightTerm, leftTerm % rightTerm)
+
+                except Exception as e:
+                    print(e)
+                    continue
+
                 if SETTINGS['showBase']:
-                    print("%r + %r = %r" % (leftTerm, rightTerm, leftTerm + rightTerm))
+                    print("%r %s %r = " % (leftTerm, command, rightTerm), end='')
+
+                    if command == '/': # need to print two results in this case
+                        print("%r, remainder %r" % result)
+                    else:
+                        print("%r" % result)
                 else:
-                    print("%s + %s = %s" % (leftTerm.getValue(), rightTerm.getValue(), (leftTerm + rightTerm).getValue()))
+                    print("%s %s %s = " % (leftTerm.getValue(), command, rightTerm.getValue()), end='')
 
-            elif command == '-':
-                print("- not implemented yet")
-
-            elif command == '*':
-                print("* not implemented yet")
-
-            elif command == '/':
-                print("/ not implemented yet")
+                    if command == '/': # need to print two results in this case
+                        print("%s, remainder %s" % (result[0].getValue(), result[1].getValue()))
+                    else:
+                        print("%s" % result.getValue())
 
             elif command == 'c':
                 print("c not implemented yet")
@@ -53,7 +68,7 @@ class Console():
 
     def readNumber(self, base):
         while True:
-            value = input("Please enter a number (base %i): " % base)
+            value = input("Please enter a number (base %i): " % base).upper()
 
             try:
                 for i, symbol in enumerate(value):

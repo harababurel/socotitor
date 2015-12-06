@@ -40,6 +40,8 @@ class Number:
         if not isinstance(value, str):
             raise TypeError("The value must be a <class 'str'>, not %r." % type(value))
 
+        value = value.upper()
+
         if not base in SETTINGS['bases']:
             raise BaseError("The base %i is not defined." % base)
 
