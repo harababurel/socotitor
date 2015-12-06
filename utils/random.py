@@ -25,13 +25,11 @@ def randomNumber(sign=None, size=None, base=None):
     resultValue = '-' if sign == 1 else ''
 
     for i in range(0, size):
-        currentSymbol = choice(symbolsOfBase[base])
+        digit = choice(symbolsOfBase[base])
 
-        # a number can't start with '0'
-        while i == 0 and currentSymbol == '0':
-            currentSymbol = choice(symbolsOfBase[base])
+        while i == 0 and digit == '0':              #number can't start with a 0
+            digit = choice(symbolsOfBase[base])
 
-        resultValue += currentSymbol
+        resultValue += choice(symbolsOfBase[base])
 
     return Number(resultValue, base)
-
