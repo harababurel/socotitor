@@ -17,6 +17,24 @@ class Console():
             if command == '':
                 continue
 
+            elif command == '+':
+                print("+ not implemented yet")
+
+            elif command == '-':
+                print("- not implemented yet")
+
+            elif command == '*':
+                print("* not implemented yet")
+
+            elif command == '/':
+                print("/ not implemented yet")
+
+            elif command == 'c':
+                print("c not implemented yet")
+
+            elif command == 'h':
+                print(STRINGS['help'])
+
             elif command == 'x':
                 exit(0)
 
