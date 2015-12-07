@@ -6,6 +6,7 @@ STRINGS = {
                 "              ___) | (_) | (_| (_) | |_| | || (_) | |                 \n" +
                 "             |____/ \___/ \___\___/ \__|_|\__\___/|_|                 \n" +
                 "                         operations and conversions in arbitrary bases\n",
+                "                                              author: Sergiu Puscas   \n",
         'help':
                 "+---------+----------------------------------------------------------+\n" +
                 "| Command |                    Description                           |\n" +

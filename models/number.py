@@ -532,6 +532,9 @@ class Number:
         if self.getBase() > newBase:
             raise BaseError("Substitution method works best for converting to a greater base. Please use the successive division method instead.")
 
+        if self.getBase() == newBase:
+            return self
+
         ans = Number('0', newBase)
         for symbol in abs(self).getValue():
             ans = ans * Number(digitToSymbol[self.getBase()], newBase) + Number(symbol, newBase)
@@ -556,6 +559,9 @@ class Number:
         if self.getBase() < newBase:
             raise BaseError("Successive division method works best for converting to a lesser base. Please use the substitution method instead.")
 
+        if self.getBase() == newBase:
+            return self
+
         negative = self.isNegative()
         self = abs(self)
 
@@ -568,6 +574,19 @@ class Number:
         resultValue = ['', '-'][negative] + ''.join(resultSymbols[::-1])
 
         return Number(resultValue, newBase)
+
+    def convertWithIntermediateBase(self, newBase):
+        """Method converts **self** into **newBase** using 10 as an intermediate base.
+        Args:
+            **newBase** (int): the destination base.
+
+        Returns:
+            **Number**: the representation of **self** in the base **newBase**.
+
+        Raises:
+            hopefully nothing.
+        """
+        return (self.convert(10, False)).convert(newBase, False)
 
     def convert(self, newBase, verbose=True):
         """Method chooses the proper conversion method for converting **self** into **newBase**.
