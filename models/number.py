@@ -529,7 +529,7 @@ class Number:
         """
 
         if self.getBase() > newBase:
-            raise BaseError("Substitution method works best for converting to a larger base. Please use the successive division method instead.")
+            raise BaseError("Substitution method works best for converting to a greater base. Please use the successive division method instead.")
 
         ans = Number('0', newBase)
         for symbol in abs(self).getValue():
@@ -539,6 +539,23 @@ class Number:
             ans = -ans
 
         return ans
+
+    def convertBySuccessiveDivisions(self, newBase):
+        """Method implements the successive division method for converting a number into a **lesser** base.
+        Args:
+            newBase (int): the destination base of the conversion.
+
+        Returns:
+            **Number**: the representation of *self* in the base *newBase*.
+
+        Raises:
+            **BaseError**: if the destination base is greater than the current base.
+        """
+
+        if self.getBase() < newBase:
+            raise BaseError("Successive division method works best for converting to a lesser base. Please use the substitution method instead.")
+
+        # TODO: implement the actual method
 
     def rapidConversion(self, newBase):
         """
