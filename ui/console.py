@@ -57,7 +57,15 @@ class Console():
                         print("%s" % result.getValue())
 
             elif command == 'c':
-                print("c not implemented yet")
+                print("You chose to perform %s." % STRINGS['operationNamesWithPrefix'][command])
+
+                oldBase = self.readBase(command, "Please enter the initial base: ")
+                number  = self.readNumber(oldBase)
+                newBase = self.readBase(command, "Please enter the new base: ")
+
+                result = number.convert(newBase)
+
+                print("%r = %r" % (number, result))
 
             elif command == 'h':
                 print(STRINGS['help'])
@@ -68,9 +76,12 @@ class Console():
             else:
                 print("Command not recognized. Try 'h' for help.")
 
-    def readNumber(self, base):
+    def readNumber(self, base, message=None):
         while True:
-            value = input("Please enter a number (base %i): " % base).upper()
+            if message is None:
+                value = input("Please enter a number (base %i): " % base).upper()
+            else:
+                value = input(message)
 
             try:
                 for i, symbol in enumerate(value):
@@ -87,9 +98,12 @@ class Console():
                 print(e)
         return number
 
-    def readBase(self, operation):
+    def readBase(self, operation, message=None):
         while True:
-            base = input("The base of the %s: " % STRINGS['operationNamesWithoutPrefix'][operation])
+            if message is None:
+                base = input("The base of the %s: " % STRINGS['operationNamesWithoutPrefix'][operation])
+            else:
+                base = input(message)
 
             try:
                 base = int(base)
