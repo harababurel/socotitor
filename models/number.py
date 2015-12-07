@@ -9,6 +9,7 @@
 from models.exceptions import *
 from static.settings import *
 from copy import deepcopy
+from math import log
 
 class Number:
     """The Number class models an integer value represented in some base.
@@ -555,7 +556,36 @@ class Number:
         if self.getBase() < newBase:
             raise BaseError("Successive division method works best for converting to a lesser base. Please use the substitution method instead.")
 
-        # TODO: implement the actual method
+        negative = self.isNegative()
+        self = abs(self)
+
+        divider = Number(digitToSymbol[newBase], self.getBase())
+        resultSymbols = []
+        while self != Number('0', self.getBase()):
+            resultSymbols.append((self % divider).getValue())
+            self //= divider
+
+        resultValue = ['', '-'][negative] + ''.join(resultSymbols[::-1])
+
+        return Number(resultValue, newBase)
+
+    def convert(self, newBase):
+        """Method chooses the proper conversion method for converting **self** into **newBase**.
+        Returns:
+            **Number**: the representation of **self** in the base **newBase**.
+        """
+
+        try:
+            result = self.rapidConversion(newBase)                    # first of all, try rapid conversions
+            print("Suggested method: rapid conversions.")
+            return result
+        except:
+            if self.getBase() < newBase:                            # if unable to do so,
+                print("Suggested method: substitution.")
+                return self.convertBySubstitution(newBase)          # apply either the substitution method (for conversion to a greater base)
+            else:
+                print("Suggested method: successive divisions.")
+                return self.convertBySuccessiveDivisions(newBase)   # or the successive divisions method (for conversions to a lesser base)
 
     def rapidConversion(self, newBase):
         """
@@ -564,13 +594,10 @@ class Number:
             [(2, 4), (2, 8), (2, 16), (3, 9) (4, 16)] and symmetrics.
         """
 
-        """
-        leastBase = min(x.getBase(), newBase)
-        greatestBase = max(x.getBase(), newBase)
+        leastBase = min(self.getBase(), newBase)
+        greatestBase = max(self.getBase(), newBase)
 
         if not greatestBase in [leastBase**2, leastBase**3, leastBase**4]:
-            raise BaseError("Rapid conversions only work on bases that are a power of each other.")
-        """
-        # TODO: implement the actual method
+            raise BaseError("Cannot apply rapid conversions between bases that are not a power of each other.")
 
-        return
+        groupSize = max(1, int(log(newBase) / log(self.getBase())))
