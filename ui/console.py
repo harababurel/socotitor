@@ -6,10 +6,17 @@ from utils.random import *
 
 
 class Console():
+    """
+    Class implements the user interface and its methods.
+    """
     def __init__(self):
         pass
 
     def run(self):
+        """
+        Method runs the main loop of the user interface.
+        """
+
         print(STRINGS['title'])
         print(STRINGS['help'])
 
@@ -78,6 +85,17 @@ class Console():
                 print("Command not recognized. Try 'h' for help.")
 
     def readNumber(self, base, message=None):
+        """
+        Method reads the representation of a number, validates input, and creates its associated Number object.
+
+        Args:
+            :base: the base of the number to be read.
+            :message (optional): the prompt that is displayed to the user, instead of the default one.
+
+        Returns:
+            :Number: the number provided by the user.
+        """
+
         while True:
             if message is None:
                 value = input("Please enter a number (base %i): " % base).upper()
@@ -100,6 +118,16 @@ class Console():
         return number
 
     def readBase(self, operation, message=None):
+        """
+        Method reads a base, validates input, and returns it.
+
+        Args:
+            :operation: the operation for which the base is requested.
+            :message (optional): the prompt that is displayed to the user, instead of the default one.
+
+        Returns:
+            :int: the base.
+        """
         while True:
             if message is None:
                 base = input("The base of the %s: " % STRINGS['operationNamesWithoutPrefix'][operation])

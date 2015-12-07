@@ -1,5 +1,5 @@
 The Number Class
-=============================================
+================
 
 .. automodule:: models.number
 

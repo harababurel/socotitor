@@ -21,6 +21,7 @@ Contents:
    utils
    tests
    static
+   ui
 
 
 
