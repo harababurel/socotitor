@@ -18,10 +18,10 @@ class Console():
             if command == '':
                 continue
 
-            elif command in ['+', '-', '*', '/']:
-                print("You chose to perform %s." % STRINGS['operationNames'][command])
+            elif command in ['+', '-', '*', '/', '^']:
+                print("You chose to perform %s." % STRINGS['operationNamesWithPrefix'][command])
 
-                base = self.readBase()
+                base = self.readBase(command)
                 leftTerm = self.readNumber(base)
                 rightTerm = self.readNumber(base)
 
@@ -34,6 +34,8 @@ class Console():
                         result = leftTerm * rightTerm
                     elif command == '/':
                         result = (leftTerm // rightTerm, leftTerm % rightTerm)
+                    elif command == '^':
+                        result = leftTerm ** rightTerm
 
                 except Exception as e:
                     print(e)
@@ -85,9 +87,9 @@ class Console():
                 print(e)
         return number
 
-    def readBase(self):
+    def readBase(self, operation):
         while True:
-            base = input("The base of the addition: ")
+            base = input("The base of the %s: " % STRINGS['operationNamesWithoutPrefix'][operation])
 
             try:
                 base = int(base)

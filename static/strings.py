@@ -14,17 +14,25 @@ STRINGS = {
                 "|    -    | Perform a subtraction.                                   |\n" +
                 "|    *    | Perform a multiplication.                                |\n" +
                 "|    /    | Perform an integer division.                             |\n" +
+                "|    ^    | Perform an exponentiation.                               |\n" +
                 "|    c    | Perform a conversion using the suggested method.         |\n" +
                 "|    h    | Display this prompt.                                     |\n" +
                 "|    x    | Exit the application.                                    |\n" +
                 "+---------+----------------------------------------------------------+\n",
-        'operationNames': {
+        'operationNamesWithPrefix': {
                     '+': 'an addition',
                     '-': 'a subtraction',
                     '*': 'a multiplication',
                     '/': 'a division',
+                    '^': 'an exponentiation',
                     'c': 'a conversion'
+                    },
+        'operationNamesWithoutPrefix': {
+                    '+': 'addition',
+                    '-': 'subtraction',
+                    '*': 'multiplication',
+                    '/': 'division',
+                    '^': 'exponentiation',
+                    'c': 'conversion'
                     }
                 }
-
-

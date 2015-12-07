@@ -479,6 +479,43 @@ class Number:
         rem = a - b * quotient
         return (quotient, rem)
 
+    def exponentiation(self, base, exponent):
+        """Method computes the integer exponentiation *base* ^ *exponent*.
+        Args:
+            base     (Number): the base of the exponentiation
+            exponent (Number): the exponent of the exponentiation
+
+        Returns
+            **Number**: the result of the integer exponentiation *base* ^ *exponent*.
+
+        Raises:
+            **BaseError**: if *base* and *exponent* are not represented in the same base.
+            **SignError**: if the exponent is negative.
+        """
+
+        if base.getBase() != exponent.getBase():
+            raise BaseError()
+
+        if exponent.isNegative():
+            raise SignError("The exponent must be positive.")
+
+        if exponent == Number('1', base.getBase()): # base**1 == base
+            return base
+
+        two = Number('2', base.getBase()) if base.getBase() > 2 else Number('10', base.getBase())
+        if exponent % two == Number('1', base.getBase()):
+            return base * self.exponentiation(base, exponent -  Number('1', base.getBase()))
+
+        half = self.exponentiation(base, exponent // two)
+        return half * half
+
+    def __pow__(self, exponent):
+        """Method implements the behavior for the '\*\*' operator.
+        Returns:
+            **Number**: the result of the exponentiation *self* ^ *exponent*.
+        """
+        return self.exponentiation(self, exponent)
+
     def convertBySubstitution(self, newBase):
         """Method implements the substitution method for converting a number into a **greater** base.
         Args:
