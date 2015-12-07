@@ -48,6 +48,9 @@ class Number:
 
         self.__base = base
 
+        if value == '-0':
+            value = '0'
+
         if value[0] == '-':     # if the minus sign is provided in the value
             self.__sign = 1     # then the number is negative
             value = value[1:]   # and the sign can be erased
@@ -157,6 +160,7 @@ class Number:
         Returns:
             **Number**: the absolute value of *self*.
         """
+
         if self.isNegative():
             return -self
         return self
@@ -261,7 +265,7 @@ class Number:
             raise BaseError()
 
         if a.isNegative() or b.isNegative():
-            raise SignError()
+            raise SignError("between %s and %s" % (a.getValue(), b.getValue()))
 
         resultDigits = []
         carry = 0
@@ -419,7 +423,7 @@ class Number:
             **BaseError**:         if *self* and *other* are not represented in the same base.
             **ZeroDivisionError**: if *other* is 0.
         """
-        return self.integerDivision(self, other)[0]
+        return self.integerDivision(other)[0]
 
     def __mod__(self, other):
         """Method implements the behavior of the '%' operator.
@@ -430,54 +434,59 @@ class Number:
             **BaseError**:         if *self* and *other* are not represented in the same base.
             **ZeroDivisionError**: if *other* is 0.
         """
-        return self.integerDivision(self, other)[1]
+        return self.integerDivision(other)[1]
 
 
-    def integerDivision(self, a, b):
+    def integerDivision(self, other):
         """Method implements the integer division algorithm.
         Args:
-            a (Number): the 'deimpartit'
-            b (Number): the 'impartitor'
+            **self**  (Number): the 'deimpartit'
+            **other** (Number): the 'impartitor'
 
         Returns
-            (Number, Number): a tuple (quotient, remainder) representing the result of the integer division *a* / *b*.
+            (Number, Number): a tuple (quotient, remainder) representing the result of the integer division **self** / **other**.
 
         Raises:
             **BaseError**:         if *self* and *other* are not represented in the same base.
             **ZeroDivisionError**: if *other* is 0.
         """
 
-        if b == Number('0', b.getBase()):
+        if other == Number('0', other.getBase()):
             raise ZeroDivisionError()
 
-        if a.getBase() != b.getBase():
+        if self.getBase() != other.getBase():
             raise BaseError()
 
+        if abs(self) == abs(other): # some edge case
+
+            quotient = Number(['', '-'][self.getSign() != other.getSign()] + '1', self.getBase())
+            remainder = Number('0', self.getBase())
+            return (quotient, remainder)
+
         quotientDigits = []
-        rem = Number('0', a.getBase())
-        for i in abs(a).getValue():
+        rem = Number('0', self.getBase())
+        for i in abs(self).getValue():
             rem *= Number('10', rem.getBase())
             rem += Number(i, rem.getBase())
 
             quotientDigits.append(0)
 
-            while abs(b) <= abs(rem):
+            while abs(other) <= abs(rem):
                 quotientDigits[-1] += 1
-                rem -= abs(b)
+                rem -= abs(other)
 
         quotientDigits = quotientDigits[::-1]
         while len(quotientDigits) > 1 and quotientDigits[-1] == 0:
             quotientDigits.pop()
 
         quotientValue = ''.join([digitToSymbol[digit] for digit in quotientDigits[::-1]])
+        quotient = Number(quotientValue, self.getBase())
 
-        quotient = Number(quotientValue, a.getBase())
-
-        if a.getSign() != b.getSign():
+        if self.getSign() != other.getSign():
             quotient = -quotient
             quotient -= Number('1', quotient.getBase())
 
-        rem = a - b * quotient
+        rem = self - other * quotient
         return (quotient, rem)
 
     def exponentiation(self, base, exponent):

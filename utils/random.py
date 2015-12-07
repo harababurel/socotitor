@@ -30,6 +30,6 @@ def randomNumber(sign=None, size=None, base=None):
         while i == 0 and digit == '0':              #number can't start with a 0
             digit = choice(symbolsOfBase[base])
 
-        resultValue += choice(symbolsOfBase[base])
+        resultValue += digit
 
     return Number(resultValue, base)
