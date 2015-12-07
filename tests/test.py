@@ -13,9 +13,11 @@ class Test:
         pass
 
     def testOperations(self, testCount=SETTINGS['testCount'], sizemax=SETTINGS['sizemax'], verbose=SETTINGS['verbose']):
-        """Method tests the following operators: +, -, *, //, %, **, abs().
+        """
+        Method tests the following operators: ``+``, ``-``, ``*``, ``//``, ``%``, ``**``, ``abs()``.
+
         Raises:
-            **AssertionError**: if some test fails.
+            :AssertionError: if some test fails.
         """
         for i in range(0, testCount):
 
@@ -76,15 +78,17 @@ class Test:
             assert actualAbs.getValue()  == expectedAbs
 
     def testConversions(self, testCount=SETTINGS['testCount'], sizemax=SETTINGS['sizemax'], verbose=SETTINGS['verbose']):
-        """Method tests the conversion method, using the following mechanism:
-        Take a random number in base 10.
-        Convert it a number of times (let's say 100) into random bases.
-        Convert it back into base 10.
+        """
+        Method tests the conversion method, using the following mechanism:
+
+            1. Take a random number in base 10.
+            2. Convert it a number of times (say, 100) into random bases.
+            3. Convert it back into base 10.
 
         If all conversions are correct, then the result should match the initial value.
 
         Raises:
-            **AssertionError**: if some test fails.
+            :AssertionError: if some test fails.
         """
         for test in range(0, testCount):
 

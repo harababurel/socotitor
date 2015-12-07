@@ -1,3 +1,12 @@
+"""
+Objects contained in the ``static.strings`` module:
+    :STRINGS: a dictionary with the following fields:
+
+        * ``title``
+        * ``help``
+        * ``operationNamesWithPrefix``
+        * ``operationNamesWithoutPrefix``
+"""
 STRINGS = {
         'title':
                 "              ____                  _   _ _                           \n" +

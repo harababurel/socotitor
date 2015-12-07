@@ -4,14 +4,15 @@ from random import randint, choice
 
 
 def randomNumber(sign=None, size=None, base=None):
-    """Method generates a random number in a certain base.
-    If sign, size, or base are not provided, they are chosen
-    at random.
+    """
+    Method generates a random number in a certain base.
 
-    Arguments:
-        sign: 0 or 1 (optional) -> the sign of the number
-        size: int (optional)    -> the number of digits
-        base: int (optional)    -> the base of the number
+    If *sign*, *size*, or *base* are not provided, they are chosen at random.
+
+    Args:
+        :sign: 0 or 1 (optional) -> the sign of the number
+        :size: int (optional)    -> the number of digits
+        :base: int (optional)    -> the base of the number
     """
 
     if sign is None:

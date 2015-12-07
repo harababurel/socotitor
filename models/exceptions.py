@@ -1,9 +1,10 @@
 """
-    Some custom-made exceptions that are raised throughout the program.
+Some custom-made exceptions that are raised throughout the program.
 """
 
 class BaseError(Exception):
-    """The BaseError exception is used when some operations/conversions can't be applied due to the operands having different or inadequate bases.
+    """
+    The BaseError exception is used when some operations/conversions can't be applied due to the operands having different or inadequate bases.
     """
     def __init__(self, message=None):
         if message is not None:
@@ -15,7 +16,8 @@ class BaseError(Exception):
         return self.__message
 
 class DigitError(Exception):
-    """The DigitError exception is used when trying to create a Number object with digits/symbols that do not belong to its base.
+    """
+    The DigitError exception is used when trying to create a Number object with digits/symbols that do not belong to its base.
     """
     def __init__(self, message=None):
         if message is not None:
@@ -27,7 +29,8 @@ class DigitError(Exception):
         return self.__message
 
 class SignError(Exception):
-    """The SignError exception is used when some operations/conversions can't be applied due to the operands having different or inadequate signs.
+    """
+    The SignError exception is used when some operations/conversions can't be applied due to the operands having different or inadequate signs.
     """
     def __init__(self, message=None):
         if message is not None:
@@ -39,7 +42,8 @@ class SignError(Exception):
         return self.__message
 
 class ComparisonError(Exception):
-    """The ComparisonError exception is used when some operations/conversions can't be applied due to the operands having different or inadequate dimensions.
+    """
+    The ComparisonError exception is used when some operations/conversions can't be applied due to the operands having different or inadequate dimensions.
     """
     def __init__(self, message=None):
         if message is not None:

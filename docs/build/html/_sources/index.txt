@@ -18,6 +18,9 @@ Contents:
    project
    number
    exceptions
+   utils
+   tests
+   static
 
 
 

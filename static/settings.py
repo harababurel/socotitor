@@ -1,5 +1,17 @@
 """
-    Configuration file for the application.
+Objects contained in the ``static.settings`` module:
+    :SETTINGS: a dictionary with diferent run parameters:
+
+        * ``testCount`` - the number of tests to run at launch.
+        * ``valmax`` - the maximum value of a randomly generated number.
+        * ``sizemax``- the maximum size of a randomly generated number
+        * ``showBase`` - whether or not to display the base when printing a number.
+        * ``verbose`` - whether or not to print addition output for tests.
+        * ``bases`` - a list of bases that are considered known by the application.
+
+    :symbolToDigit: a dictionary that converts base symbols to integer digits.
+    :digitToSymbol: a dictionary that converts integer digits to base symbols.
+    :symbolsOfBase: a dictionary that contains the valid symbols for each known base.
 """
 
 SETTINGS = {
