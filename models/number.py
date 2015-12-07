@@ -11,6 +11,7 @@ from static.settings import *
 from copy import deepcopy
 from math import log
 
+
 class Number:
     """The Number class models an integer value represented in some base.
     Attributes:
@@ -43,7 +44,7 @@ class Number:
 
         value = value.upper()
 
-        if not base in SETTINGS['bases']:
+        if base not in SETTINGS['bases']:
             raise BaseError("The base %i is not defined." % base)
 
         self.__base = base
@@ -386,7 +387,7 @@ class Number:
         if self.getBase() != other.getBase():
             raise BaseError()
 
-        resultSize = self.getSize() + other.getSize() - 1;
+        resultSize = self.getSize() + other.getSize() - 1
         resultDigits = [0 for i in range(0, resultSize)]
         resultBase = self.getBase()
 
@@ -436,7 +437,6 @@ class Number:
         """
         return self.integerDivision(other)[1]
 
-
     def integerDivision(self, other):
         """Method implements the integer division algorithm.
         Args:
@@ -457,7 +457,7 @@ class Number:
         if self.getBase() != other.getBase():
             raise BaseError()
 
-        if abs(self) == abs(other): # some edge case
+        if abs(self) == abs(other):     # some edge case
 
             quotient = Number(['', '-'][self.getSign() != other.getSign()] + '1', self.getBase())
             remainder = Number('0', self.getBase())
@@ -516,12 +516,12 @@ class Number:
         if exponent.isNegative():
             raise SignError("The exponent must be positive.")
 
-        if exponent == Number('1', base.getBase()): # base**1 == base
+        if exponent == Number('1', base.getBase()):     # base**1 == base
             return base
 
         two = Number('2', base.getBase()) if base.getBase() > 2 else Number('10', base.getBase())
         if exponent % two == Number('1', base.getBase()):
-            return base * self.exponentiation(base, exponent -  Number('1', base.getBase()))
+            return base * self.exponentiation(base, exponent - Number('1', base.getBase()))
 
         half = self.exponentiation(base, exponent // two)
         return half * half
@@ -642,7 +642,7 @@ class Number:
         leastBase = min(self.getBase(), newBase)
         greatestBase = max(self.getBase(), newBase)
 
-        if not greatestBase in [leastBase**2, leastBase**3, leastBase**4]:
+        if greatestBase not in [leastBase**2, leastBase**3, leastBase**4]:
             raise BaseError("Cannot apply rapid conversions between bases that are not a power of each other.")
 
         oldBase = self.getBase()
@@ -667,5 +667,3 @@ class Number:
 
         resultValue = ['', '-'][self.isNegative()] + ''.join(resultSymbols)
         return Number(resultValue, newBase)
-
-

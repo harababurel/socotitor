@@ -4,6 +4,7 @@ from static.strings import STRINGS
 from static.settings import *
 from utils.random import *
 
+
 class Console():
     def __init__(self):
         pass
@@ -44,14 +45,14 @@ class Console():
                 if SETTINGS['showBase']:
                     print("%r %s %r = " % (leftTerm, command, rightTerm), end='')
 
-                    if command == '/': # need to print two results in this case
+                    if command == '/':      # need to print two results in this case
                         print("%r, remainder %r" % result)
                     else:
                         print("%r" % result)
                 else:
                     print("%s %s %s = " % (leftTerm.getValue(), command, rightTerm.getValue()), end='')
 
-                    if command == '/': # need to print two results in this case
+                    if command == '/':      # need to print two results in this case
                         print("%s, remainder %s" % (result[0].getValue(), result[1].getValue()))
                     else:
                         print("%s" % result.getValue())
@@ -60,7 +61,7 @@ class Console():
                 print("You chose to perform %s." % STRINGS['operationNamesWithPrefix'][command])
 
                 oldBase = self.readBase(command, "Please enter the initial base: ")
-                number  = self.readNumber(oldBase)
+                number = self.readNumber(oldBase)
                 newBase = self.readBase(command, "Please enter the new base: ")
 
                 result = number.convert(newBase)
