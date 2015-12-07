@@ -1,5 +1,4 @@
-"""
-    Module implements some tests.
+"""Module implements some tests (namely, for operations and for conversions).
 """
 
 from random import randint, choice
@@ -82,7 +81,7 @@ class Test:
         Convert it a number of times (let's say 100) into random bases.
         Convert it back into base 10.
 
-        If all conversions are correct, then the result should match the initial value
+        If all conversions are correct, then the result should match the initial value.
 
         Raises:
             **AssertionError**: if some test fails.
