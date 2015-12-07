@@ -2,6 +2,15 @@
     Configuration file for the application.
 """
 
+SETTINGS = {
+        'testCount': 10,
+        'valmax':    10**18,
+        'sizemax':   5,
+        'showBase':  False,
+        'verbose':   False,
+        'bases': [2, 3, 4, 5, 6, 7, 8, 9, 10, 16]
+        }
+
 symbolToDigit = {
         '0': 0,
         '1': 1,
@@ -52,13 +61,4 @@ symbolsOfBase = {
         9:  ['0', '1', '2', '3', '4', '5', '6','7', '8'],
         10: ['0', '1', '2', '3', '4', '5', '6','7', '8', '9'],
         16: ['0', '1', '2', '3', '4', '5', '6','7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
-        }
-
-SETTINGS = {
-        'testCount': 100,
-        'valmax':    10**18,
-        'sizemax':   2,
-        'showBase':  False,
-        'verbose':   True,
-        'bases': [2, 3, 4, 5, 6, 7, 8, 9, 10, 16]
         }

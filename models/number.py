@@ -482,11 +482,18 @@ class Number:
         quotientValue = ''.join([digitToSymbol[digit] for digit in quotientDigits[::-1]])
         quotient = Number(quotientValue, self.getBase())
 
+        # Sometimes, there is an off-by-one error in the case of negative numbers
+        # This piece of code should fix that
         if self.getSign() != other.getSign():
             quotient = -quotient
             quotient -= Number('1', quotient.getBase())
 
         rem = self - other * quotient
+
+        if rem == other:
+            quotient += Number('1', quotient.getBase())
+            rem = Number('0', quotient.getBase())
+
         return (quotient, rem)
 
     def exponentiation(self, base, exponent):

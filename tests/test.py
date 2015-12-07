@@ -25,61 +25,64 @@ class Test:
             if verbose:
                 print("Operation test #%i" % (i+1))
 
-            x = randomNumber(None, sizemax, 10)
-            y = randomNumber(None, sizemax, 10)
+            x   = randomNumber(None, sizemax, 10)
+            y   = randomNumber(None, sizemax, 10)
+            exp = randomNumber(0, 1, 10)            # when exponentiating, make sure the result is not huge
 
             while y == Number('0', 10):
                 y = randomNumber(None, sizemax, 10)
 
+            if verbose:
+                print("Chosen numbers: %s and %s" % (x.getValue(), y.getValue()))
 
-            print("Chosen numbers: %s and %s" % (x.getValue(), y.getValue()))
-
-            intX = int(x.getValue())
-            intY = int(y.getValue())
+            intX   = int(x.getValue())
+            intY   = int(y.getValue())
+            intExp = int(exp.getValue())
 
             newBase = choice([2, 3, 4, 5, 6, 7, 8, 9, 10, 16])
 
-            x = x.convert(newBase, False)
-            y = y.convert(newBase, False)
+            x   =   x.convert(newBase, False)
+            y   =   y.convert(newBase, False)
+            exp = exp.convert(newBase, False)
 
             actualSum  = x +  y
             actualDiff = x -  y
             actualProd = x *  y
             actualQuot = x // y
             actualRem  = x %  y
-            #actualPow  = x ** y
+            actualPow  = x ** exp
             actualAbs  = abs(x)
 
-            expectedSum  = numpy.base_repr(intX +  intY, newBase)
-            expectedDiff = numpy.base_repr(intX -  intY, newBase)
-            expectedProd = numpy.base_repr(intX *  intY, newBase)
-            expectedQuot = numpy.base_repr(intX // intY, newBase)
-            expectedRem  = numpy.base_repr(intX %  intY, newBase)
-            #expectedPow  = numpy.base_repr(intX ** intY, newBase)
-            expectedAbs  = numpy.base_repr(abs(intX),    newBase)
+            expectedSum  = numpy.base_repr(intX +  intY,   newBase)
+            expectedDiff = numpy.base_repr(intX -  intY,   newBase)
+            expectedProd = numpy.base_repr(intX *  intY,   newBase)
+            expectedQuot = numpy.base_repr(intX // intY,   newBase)
+            expectedRem  = numpy.base_repr(intX %  intY,   newBase)
+            expectedPow  = numpy.base_repr(intX ** intExp, newBase)
+            expectedAbs  = numpy.base_repr(abs(intX),      newBase)
 
-            print("%s +  %s = %s, expected %s" % (x.getValue(), y.getValue(), actualSum.getValue(),  expectedSum))
-            print("%s -  %s = %s, expected %s" % (x.getValue(), y.getValue(), actualDiff.getValue(), expectedDiff))
-            print("%s *  %s = %s, expected %s" % (x.getValue(), y.getValue(), actualProd.getValue(), expectedProd))
-            print("%s // %s = %s, expected %s" % (x.getValue(), y.getValue(), actualQuot.getValue(), expectedQuot))
-            print("%s %%  %s = %s, expected %s" % (x.getValue(), y.getValue(), actualRem.getValue(),  expectedRem))
-            #print("%s ** %s = %s, expected %s" % (x.getValue(), y.getValue(), actualPow.getValue(), expectedPow))
-            print("|%s|     = %s, expected %s" % (x.getValue(), actualAbs.getValue(), expectedAbs))
+            if verbose:
+                print("%s +  %s = %s, expected %s"  % (x.getValue(),   y.getValue(), actualSum.getValue(),  expectedSum))
+                print("%s -  %s = %s, expected %s"  % (x.getValue(),   y.getValue(), actualDiff.getValue(), expectedDiff))
+                print("%s *  %s = %s, expected %s"  % (x.getValue(),   y.getValue(), actualProd.getValue(), expectedProd))
+                print("%s // %s = %s, expected %s"  % (x.getValue(),   y.getValue(), actualQuot.getValue(), expectedQuot))
+                print("%s %%  %s = %s, expected %s" % (x.getValue(),   y.getValue(), actualRem.getValue(),  expectedRem))
+                print("%s ** %s = %s, expected %s"  % (x.getValue(), exp.getValue(), actualPow.getValue(),  expectedPow))
+                print("|%s|     = %s, expected %s"  % (x.getValue(),                 actualAbs.getValue(),  expectedAbs))
+
             assert actualSum.getValue()  == expectedSum
             assert actualDiff.getValue() == expectedDiff
             assert actualProd.getValue() == expectedProd
             assert actualQuot.getValue() == expectedQuot
             assert actualRem.getValue()  == expectedRem
-            #assert actualPow.getValue()  == expectedPow
+            assert actualPow.getValue()  == expectedPow
             assert actualAbs.getValue()  == expectedAbs
-
-
 
     def testEverything(self, verbose=SETTINGS['verbose']):
         alright = True
-        self.testOperationsAndConversions(verbose=verbose)
+        print("Running tests...")
         try:
-            pass
+            self.testOperationsAndConversions(verbose=verbose)
         except Exception as e:
             print("Operations tests failed :(")
             print(e)
@@ -87,4 +90,3 @@ class Test:
 
         if alright:
             print("All tests passed :)")
-
