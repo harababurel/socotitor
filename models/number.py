@@ -569,7 +569,7 @@ class Number:
 
         return Number(resultValue, newBase)
 
-    def convert(self, newBase):
+    def convert(self, newBase, verbose=True):
         """Method chooses the proper conversion method for converting **self** into **newBase**.
         Returns:
             **Number**: the representation of **self** in the base **newBase**.
@@ -577,23 +577,33 @@ class Number:
 
         try:
             result = self.rapidConversion(newBase)                    # first of all, try rapid conversions
-            print("Suggested method: rapid conversions.")
+            if verbose:
+                print("Suggested method: rapid conversions.")
             return result
         except:
             if self.getBase() < newBase:                            # if unable to do so,
-                print("Suggested method: substitution.")
+                if verbose:
+                    print("Suggested method: substitution.")
                 return self.convertBySubstitution(newBase)          # apply either the substitution method (for conversion to a greater base)
             else:
-                print("Suggested method: successive divisions.")
+                if verbose:
+                    print("Suggested method: successive divisions.")
                 return self.convertBySuccessiveDivisions(newBase)   # or the successive divisions method (for conversions to a lesser base)
 
     def rapidConversion(self, newBase):
-        """
-            Method returns the number x written in newBase.
-            It assumes that (x.getBase(), newBase) belongs to:
-            [(2, 4), (2, 8), (2, 16), (3, 9) (4, 16)] and symmetrics.
-        """
+        """Method converts **self** in the base **newBase** using the rapid conversion method.
+        Args:
+            newBase (int): the destination base.
 
+        Returns:
+            **Number**: the representation of **self** in the base **newBase**.
+
+        Raises:
+            **BaseError**: if the bases do not allow for rapid conversions.
+
+        Note: rapid conversions can only be applied if the tuple (self.getBase(), newBase) belongs to:
+              [(2, 4), (2, 8), (2, 16), (3, 9) (4, 16)] and reverses.
+        """
         leastBase = min(self.getBase(), newBase)
         greatestBase = max(self.getBase(), newBase)
 
@@ -601,3 +611,19 @@ class Number:
             raise BaseError("Cannot apply rapid conversions between bases that are not a power of each other.")
 
         groupSize = max(1, int(log(newBase) / log(self.getBase())))
+
+        resultSymbols = []
+        for group in [abs(self).getValue()[::-1][i:i+groupSize][::-1] for i in range(0, len(abs(self).getValue()), groupSize)][::-1]:
+            groupNumber = Number(group, self.getBase())
+
+            if self.getBase() < newBase:
+                groupNumber = groupNumber.convertBySubstitution(newBase)
+            else:
+                groupNumber = groupNumber.convertBySuccessiveDivisions(newBase)
+
+            resultSymbols.append(groupNumber.getValue())
+
+        resultValue = ['', '-'][self.isNegative()] + ''.join(resultSymbols)
+        return Number(resultValue, newBase)
+
+
