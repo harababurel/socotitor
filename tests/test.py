@@ -6,17 +6,15 @@ from random import randint, choice
 from models.number import *
 from static.settings import *
 from utils.random import *
+from copy import deepcopy
 import numpy
 
 class Test:
     def __init__(self):
         pass
 
-    def testOperationsAndConversions(self, testCount=SETTINGS['testCount'], sizemax=SETTINGS['sizemax'], verbose=SETTINGS['verbose']):
-        """Method tests the following operators: +, -, *, //, %, **,
-        and the following functions: abs(), isNegative(), isPositive().
-        It also uses the conversion algorithms, so those are also tested.
-
+    def testOperations(self, testCount=SETTINGS['testCount'], sizemax=SETTINGS['sizemax'], verbose=SETTINGS['verbose']):
+        """Method tests the following operators: +, -, *, //, %, **, abs().
         Raises:
             **AssertionError**: if some test fails.
         """
@@ -78,13 +76,59 @@ class Test:
             assert actualPow.getValue()  == expectedPow
             assert actualAbs.getValue()  == expectedAbs
 
+    def testConversions(self, testCount=SETTINGS['testCount'], sizemax=SETTINGS['sizemax'], verbose=SETTINGS['verbose']):
+        """Method tests the conversion method, using the following mechanism:
+        Take a random number in base 10.
+        Convert it a number of times (let's say 100) into random bases.
+        Convert it back into base 10.
+
+        If all conversions are correct, then the result should match the initial value
+
+        Raises:
+            **AssertionError**: if some test fails.
+        """
+        for test in range(0, testCount):
+
+            if verbose:
+                print("Operation test #%i: " % (test+1), end='')
+
+            x = randomNumber(None, sizemax, 10)
+            convertedX = deepcopy(x)
+
+            for i in range(0, 10):
+                newBase = convertedX.getBase()
+
+                while newBase == convertedX.getBase():
+                    newBase = choice([2, 3, 4, 5, 6, 7, 8, 9, 10, 16])
+
+                if verbose:
+                    print("From %i to %i: %r -> %r" % (convertedX.getBase(), newBase, convertedX, convertedX.convert(newBase, False)))
+                convertedX = convertedX.convert(newBase, False)
+
+            convertedX = convertedX.convert(10, False)
+
+            if verbose:
+                print("%r transitioned into %r" % (x, convertedX))
+
+            assert convertedX == x
+            if verbose:
+                print('OK!')
+
+
     def testEverything(self, verbose=SETTINGS['verbose']):
         alright = True
         print("Running tests...")
         try:
-            self.testOperationsAndConversions(verbose=verbose)
+            self.testOperations(verbose=verbose)
         except Exception as e:
             print("Operations tests failed :(")
+            print(e)
+            alright = False
+
+        try:
+            self.testConversions(verbose=verbose)
+        except Exception as e:
+            print("Conversions tests failed :(")
             print(e)
             alright = False
 

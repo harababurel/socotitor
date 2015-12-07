@@ -645,10 +645,12 @@ class Number:
         if not greatestBase in [leastBase**2, leastBase**3, leastBase**4]:
             raise BaseError("Cannot apply rapid conversions between bases that are not a power of each other.")
 
-        groupSize = max(1, int(log(newBase) / log(self.getBase())))
+        oldBase = self.getBase()
+        groupSize = max(1, int(log(newBase) / log(oldBase)))
+        expectedSize = int(log(oldBase) / log(newBase))
 
         resultSymbols = []
-        for group in [abs(self).getValue()[::-1][i:i+groupSize][::-1] for i in range(0, len(abs(self).getValue()), groupSize)][::-1]:
+        for i, group in enumerate([abs(self).getValue()[::-1][i:i+groupSize][::-1] for i in range(0, len(abs(self).getValue()), groupSize)][::-1]):
             groupNumber = Number(group, self.getBase())
 
             if self.getBase() < newBase:
@@ -656,7 +658,12 @@ class Number:
             else:
                 groupNumber = groupNumber.convertBySuccessiveDivisions(newBase)
 
-            resultSymbols.append(groupNumber.getValue())
+            groupValue = groupNumber.getValue()
+
+            if i > 0 and oldBase > newBase:
+                groupValue = '0' * (expectedSize - len(groupValue)) + groupValue
+
+            resultSymbols.append(groupValue)
 
         resultValue = ['', '-'][self.isNegative()] + ''.join(resultSymbols)
         return Number(resultValue, newBase)
