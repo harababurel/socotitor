@@ -21,3 +21,7 @@
 |    x    | Exit the application.                                    |
 +---------+----------------------------------------------------------+
 ```
+
+# Documentation
+
+Docs should be available at [sergiu.ml/socotitor](http://sergiu.ml/socotitor/).
