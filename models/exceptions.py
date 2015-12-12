@@ -53,3 +53,16 @@ class ComparisonError(Exception):
 
     def __str__(self):
         return self.__message
+
+class SymbolError(Exception):
+    """
+    The SymbolError exception is used when trying to create an Expression object which contains undefined symbols.
+    """
+    def __init__(self, message=None):
+        if message is not None:
+            self.__message = message
+        else:
+            self.__message = "Expression contains undefined symbols."
+
+    def __str__(self):
+        return self.__message

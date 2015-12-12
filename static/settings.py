@@ -23,6 +23,8 @@ SETTINGS = {
         'bases': [2, 3, 4, 5, 6, 7, 8, 9, 10, 16]
         }
 
+validExpressionSymbols = set([x for x in '0123456789ABCDEF+-*/^%()_ '])
+
 symbolToDigit = {
         '0': 0,
         '1': 1,

@@ -1,4 +1,5 @@
 from models.number import Number
+from models.expression import Expression
 from models.exceptions import *
 from static.strings import STRINGS
 from static.settings import *
@@ -75,6 +76,14 @@ class Console():
 
                 print("%r = %r" % (number, result))
 
+            elif command == 'e':
+                print("You chose to perform %s." % STRINGS['operationNamesWithPrefix'][command])
+
+                try:
+                    expression = self.readExpression()
+                except Exception as e:
+                    print("The expression cannot be evaluated.\nReason: %s" % e)
+
             elif command == 'h':
                 print(STRINGS['help'])
 
@@ -125,6 +134,9 @@ class Console():
             :operation: the operation for which the base is requested.
             :message (optional): the prompt that is displayed to the user, instead of the default one.
 
+        Prints:
+            some message, if errors occur.
+
         Returns:
             :int: the base.
         """
@@ -145,3 +157,15 @@ class Console():
             except Exception as e:
                 print(e)
         return base
+
+    def readExpression(self):
+        """
+        Method reads an expression and returns it.
+
+        Returns:
+            :Expression: the object that models the given expression.
+
+        Raises:
+            :God knows what:
+        """
+        return Expression(input("Enter an arithmetical expression: "))

@@ -3,6 +3,7 @@
 
 from random import randint, choice
 from models.number import *
+from models.expression import *
 from static.settings import *
 from utils.random import *
 from copy import deepcopy
@@ -117,10 +118,22 @@ class Test:
             if verbose:
                 print('OK!')
 
+    def testExpressions(self, verbose=SETTINGS['verbose']):
+        assert Expression("1 + 2").evalRPN() == Number('3', 10)
+        assert Expression("( 1 + 2 ) * ( 6 / 3 ) ^ ( 5 + 6 )").evalRPN() == Number('531441', 10)
+
 
     def testEverything(self, verbose=SETTINGS['verbose']):
         alright = True
         print("Running tests...")
+
+        try:
+            self.testExpressions(verbose=verbose)
+        except Exception as e:
+            print("Expressions tests failed :(")
+            print(e)
+            alright = False
+
         try:
             self.testOperations(verbose=verbose)
         except Exception as e:
