@@ -81,6 +81,7 @@ class Console():
 
                 try:
                     expression = self.readExpression()
+                    print(expression)
                 except Exception as e:
                     print("The expression cannot be evaluated.\nReason: %s" % e)
 

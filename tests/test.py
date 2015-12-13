@@ -119,9 +119,28 @@ class Test:
                 print('OK!')
 
     def testExpressions(self, verbose=SETTINGS['verbose']):
-        assert Expression("1 + 2").evalRPN() == Number('3', 10)
-        assert Expression("( 1 + 2 ) * ( 6 / 3 ) ^ ( 5 + 6 )").evalRPN() == Number('6144', 10)
+        """
+        Some tests are taken from infoarena: http://www.infoarena.ro/problema/evaluare
+        """
 
+        answers = {
+                "1 + 2": '3',
+                "( 1 + 2 ) * ( 6 / 3 ) ^ ( 5 + 6 )": '6144',
+        }
+
+        for expression in answers.keys():
+            assert Expression(expression).evalRPN() == Number(answers[expression], 10)
+
+
+        for test in range(1, 10):
+
+            print("Testing grader_test%i" % test)
+            with open("tests/expressions/grader_test%i.in" % test, 'r') as f:
+                expression = f.read()
+            with open("tests/expressions/grader_test%i.ok" % test, 'r') as f:
+                answer = f.read()
+
+            assert Expression(expression).evalRPN() == Number(answer, 10)
 
     def testEverything(self, verbose=SETTINGS['verbose']):
         alright = True

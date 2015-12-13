@@ -30,14 +30,12 @@ class Expression:
         if not isinstance(expression, str):
             raise TypeError("The expression must be a <class 'str'>, not %r." % type(expression))
 
-        expression = expression.upper()
+        # convert to uppercase + remove whitespace
+        expression = ''.join([x for x in expression.upper() if not x in ' \n\r\t'])
 
         for x in expression:
             if x not in validExpressionSymbols:
                 raise SymbolError
-
-        #remove whitespace
-        expression = ''.join([x for x in expression if x != ' '])
 
         self.__tokens = []
         buff = ''

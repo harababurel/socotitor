@@ -26,7 +26,7 @@ STRINGS = {
                 "|    /    | Perform an integer division.                             |\n" +
                 "|    ^    | Perform an exponentiation.                               |\n" +
                 "|    c    | Perform a conversion using the suggested method.         |\n" +
-                "|    e    | Evaluate an expression.                                  |\n" +
+                "|    e    | Evaluate an expression (dangerous).                      |\n" +
                 "|    h    | Display this prompt.                                     |\n" +
                 "|    x    | Exit the application.                                    |\n" +
                 "+---------+----------------------------------------------------------+\n",

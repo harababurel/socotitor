@@ -47,14 +47,15 @@ class Number:
         if not isinstance(value, str):
             raise TypeError("The value must be a <class 'str'>, not %r." % type(value))
 
-        value = value.upper()
+        # convert to uppercase + remove whitespace
+        value = ''.join([x for x in value.upper() if x not in ' \n\r\t'])
 
         if base not in SETTINGS['bases']:
             raise BaseError("The base %i is not defined." % base)
 
         self.__base = base
 
-        if value == '-0':
+        if value == '-0' or value == '':
             value = '0'
 
         if value[0] == '-':     # if the minus sign is provided in the value
