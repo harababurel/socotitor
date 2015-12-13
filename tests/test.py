@@ -120,7 +120,7 @@ class Test:
 
     def testExpressions(self, verbose=SETTINGS['verbose']):
         assert Expression("1 + 2").evalRPN() == Number('3', 10)
-        assert Expression("( 1 + 2 ) * ( 6 / 3 ) ^ ( 5 + 6 )").evalRPN() == Number('531441', 10)
+        assert Expression("( 1 + 2 ) * ( 6 / 3 ) ^ ( 5 + 6 )").evalRPN() == Number('6144', 10)
 
 
     def testEverything(self, verbose=SETTINGS['verbose']):

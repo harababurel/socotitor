@@ -92,7 +92,7 @@ class Expression:
             '*': (lambda x, y: x * y),
             '/': (lambda x, y: x // y),
             '%': (lambda x, y: x % y),
-            '^': (lambda x, y: y ** x)
+            '^': (lambda x, y: x ** y)
             }
 
 
@@ -109,7 +109,7 @@ class Expression:
         Returns:
             :list of tokens: the RPN of the expression.
         """
-        return '%r' % self.evalRPN().convert(10, verbose=False)
+        return '%r' % self.evalRPN()
 
     def isOperator(token):
         if isinstance(token, Number):
@@ -182,12 +182,13 @@ class Expression:
         """
         stack = []
 
-        for token in self.__tokens:
+        for token in self.getTokens():
             if isinstance(token, str) and token in Expression.OPERATIONS:
-                a = stack.pop().convert(16, verbose=False)
                 b = stack.pop().convert(16, verbose=False)
+                a = stack.pop().convert(16, verbose=False)
 
+                # print("Need to compute %r %s %r" % (a, token, b))
                 stack.append(Expression.OPERATIONS[token](a, b))
             else:
                 stack.append(token)
-        return stack.pop()
+        return stack.pop().convert(10, verbose=False)
