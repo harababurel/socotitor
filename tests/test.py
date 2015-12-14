@@ -23,7 +23,7 @@ class Test:
         for i in range(0, testCount):
 
             if verbose:
-                print("Operation test #%i" % (i+1))
+                print("Operation test #%i:" % (i+1), end=' ')
 
             x   = randomNumber(None, sizemax, 10)
             y   = randomNumber(None, sizemax, 10)
@@ -33,7 +33,7 @@ class Test:
                 y = randomNumber(None, sizemax, 10)
 
             if verbose:
-                print("Chosen numbers: %s and %s" % (x.getValue(), y.getValue()))
+                print("applying operations on %s and %s" % (x.getValue(), y.getValue()), end=' - ')
 
             intX   = int(x.getValue())
             intY   = int(y.getValue())
@@ -61,6 +61,7 @@ class Test:
             expectedPow  = numpy.base_repr(intX ** intExp, newBase)
             expectedAbs  = numpy.base_repr(abs(intX),      newBase)
 
+            """
             if verbose:
                 print("%s +  %s = %s, expected %s"  % (x.getValue(),   y.getValue(), actualSum.getValue(),  expectedSum))
                 print("%s -  %s = %s, expected %s"  % (x.getValue(),   y.getValue(), actualDiff.getValue(), expectedDiff))
@@ -69,6 +70,7 @@ class Test:
                 print("%s %%  %s = %s, expected %s" % (x.getValue(),   y.getValue(), actualRem.getValue(),  expectedRem))
                 print("%s ** %s = %s, expected %s"  % (x.getValue(), exp.getValue(), actualPow.getValue(),  expectedPow))
                 print("|%s|     = %s, expected %s"  % (x.getValue(),                 actualAbs.getValue(),  expectedAbs))
+            """
 
             assert actualSum.getValue()  == expectedSum
             assert actualDiff.getValue() == expectedDiff
@@ -77,6 +79,9 @@ class Test:
             assert actualRem.getValue()  == expectedRem
             assert actualPow.getValue()  == expectedPow
             assert actualAbs.getValue()  == expectedAbs
+
+            if verbose:
+                print("OK!")
 
     def testConversions(self, testCount=SETTINGS['testCount'], sizemax=SETTINGS['sizemax'], verbose=SETTINGS['verbose']):
         """
@@ -94,10 +99,13 @@ class Test:
         for test in range(0, testCount):
 
             if verbose:
-                print("Operation test #%i: " % (test+1), end='')
+                print("Conversion test #%i:" % (test+1), end=' ')
 
             x = randomNumber(None, sizemax, 10)
             convertedX = deepcopy(x)
+
+            if verbose:
+                print("successively converting %r - " % x, end='')
 
             for i in range(0, 10):
                 newBase = convertedX.getBase()
@@ -105,14 +113,13 @@ class Test:
                 while newBase == convertedX.getBase():
                     newBase = choice([2, 3, 4, 5, 6, 7, 8, 9, 10, 16])
 
+                """
                 if verbose:
                     print("From %i to %i: %r -> %r" % (convertedX.getBase(), newBase, convertedX, convertedX.convert(newBase, False)))
+                """
                 convertedX = convertedX.convert(newBase, False)
 
             convertedX = convertedX.convert(10, False)
-
-            if verbose:
-                print("%r transitioned into %r" % (x, convertedX))
 
             assert convertedX == x
             if verbose:
@@ -131,20 +138,30 @@ class Test:
         for expression in answers.keys():
             assert Expression(expression).evalRPN() == Number(answers[expression], 10)
 
+        if verbose:
+            print("Running expressions tests...")
 
-        for test in range(1, 10):
+        for test in range(1, 9):
+            if verbose:
+                print("Expression test #%i: evaluating " % test, end='')
 
-            print("Testing grader_test%i" % test)
             with open("tests/expressions/grader_test%i.in" % test, 'r') as f:
                 expression = f.read()
             with open("tests/expressions/grader_test%i.ok" % test, 'r') as f:
                 answer = f.read()
 
+            expressionPreview = ''.join([x for x in expression[:min(len(expression), 20)] if x not in ' \n\t'])
+            if len([x for x in expression if x not in ' \n\t']) != len(expressionPreview):
+                expressionPreview += '[...]'
+            print("%s - " % expressionPreview, end='')
+
             assert Expression(expression).evalRPN() == Number(answer, 10)
+
+            if verbose:
+                print("OK!")
 
     def testEverything(self, verbose=SETTINGS['verbose']):
         alright = True
-        print("Running tests...")
 
         try:
             self.testExpressions(verbose=verbose)

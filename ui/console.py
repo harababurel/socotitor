@@ -3,6 +3,7 @@ from models.expression import Expression
 from models.exceptions import *
 from static.strings import STRINGS
 from static.settings import *
+from tests.test import *
 from utils.random import *
 
 
@@ -84,6 +85,13 @@ class Console():
                     print(expression)
                 except Exception as e:
                     print("The expression cannot be evaluated.\nReason: %s" % e)
+
+            elif command == 't':
+                print("You chose to run %s." % STRINGS['operationNamesWithPrefix'][command])
+                try:
+                    Test().testEverything(verbose=True)
+                except:
+                    pass
 
             elif command == 'h':
                 print(STRINGS['help'])

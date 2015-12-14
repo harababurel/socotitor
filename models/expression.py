@@ -63,7 +63,7 @@ class Expression:
             if underscoreCount == 0:
                 value = buff
                 base = 10
-            elif undescoreCount == 1:
+            elif underscoreCount == 1:
                 value, base = buff.split('_')
             else:
                 raise SymbolError("Too many underscores in number representation.")

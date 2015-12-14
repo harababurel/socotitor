@@ -5,14 +5,10 @@ from ui.console import Console
 
 
 def main():
-    """The main method of the application.
+    """
+    The main method of the application.
     It instantiates a console and runs it.
     """
-    try:
-        Test().testEverything()
-    except:
-        exit(0)
-
     app = Console()
     app.run()
 

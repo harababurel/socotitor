@@ -27,6 +27,7 @@ STRINGS = {
                 "|    ^    | Perform an exponentiation.                               |\n" +
                 "|    c    | Perform a conversion using the suggested method.         |\n" +
                 "|    e    | Evaluate an expression (dangerous).                      |\n" +
+                "|    t    | Run tests.                                               |\n" +
                 "|    h    | Display this prompt.                                     |\n" +
                 "|    x    | Exit the application.                                    |\n" +
                 "+---------+----------------------------------------------------------+\n",
@@ -37,7 +38,8 @@ STRINGS = {
                     '/': 'a division',
                     '^': 'an exponentiation',
                     'c': 'a conversion',
-                    'e': 'an evaluation'
+                    'e': 'an evaluation',
+                    't': 'tests'
                     },
         'operationNamesWithoutPrefix': {
                     '+': 'addition',
@@ -46,6 +48,7 @@ STRINGS = {
                     '/': 'division',
                     '^': 'exponentiation',
                     'c': 'conversion',
-                    'e': 'evaluation'
+                    'e': 'evaluation',
+                    't': 'tests'
                     }
                 }
