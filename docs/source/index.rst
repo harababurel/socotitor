@@ -6,7 +6,7 @@
 Welcome to Socotitor's documentation!
 =====================================
 
-Socotitor is a Python application that is capable of operating arithmetically on integers represented in arbitrary numeration bases.
+**Socotitor** is a Python application that is capable of operating arithmetically on integers represented in arbitrary numeration bases.
 
 Contents:
 
