@@ -42,7 +42,39 @@
 <h1>Project Summary<a class="headerlink" href="#project-summary" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="statement">
 <h2>Statement<a class="headerlink" href="#statement" title="Permalink to this headline">¶</a></h2>
-<p>Statement goes here.</p>
+<p>Socotitor is a Python application that is capable of operating arithmetically on integers represented in arbitrary numeration bases.</p>
+</div>
+<div class="section" id="operations">
+<h2>Operations<a class="headerlink" href="#operations" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>The implemented operations are:</dt>
+<dd><ul class="first last simple">
+<li>addition</li>
+<li>subtraction</li>
+<li>multiplication</li>
+<li>integer division (quotient + remainder)</li>
+<li>exponentiation</li>
+</ul>
+</dd>
+</dl>
+<p>For each operation, both operands must be represented in the same base (2, 3, ..., 10, 16). If not, than one of them must first be converted to the other base.</p>
+</div>
+<div class="section" id="conversions">
+<h2>Conversions<a class="headerlink" href="#conversions" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>Socotitor implements three methods of converting bases:</dt>
+<dd><ul class="first last simple">
+<li>substitution method</li>
+<li>successive divisions</li>
+<li>rapid conversions</li>
+</ul>
+</dd>
+</dl>
+<p>The best of the three methods is chosen automatically by the application, depending on the bases of the conversion.</p>
+</div>
+<div class="section" id="expressions">
+<h2>Expressions<a class="headerlink" href="#expressions" title="Permalink to this headline">¶</a></h2>
+<p>Moreover, some more complex expressions can be evaluated. These allow using operands written in different bases. In addition, parantheses are allowed for specifying the priority of an operation.</p>
 </div>
 </div>
 
@@ -56,6 +88,9 @@
   <ul>
 <li><a class="reference internal" href="#">Project Summary</a><ul>
 <li><a class="reference internal" href="#statement">Statement</a></li>
+<li><a class="reference internal" href="#operations">Operations</a></li>
+<li><a class="reference internal" href="#conversions">Conversions</a></li>
+<li><a class="reference internal" href="#expressions">Expressions</a></li>
 </ul>
 </li>
 </ul>

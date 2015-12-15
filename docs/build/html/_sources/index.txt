@@ -6,10 +6,6 @@
 Welcome to Socotitor's documentation!
 =====================================
 
-Introduction comes here.
-
-Requirements come here.
-
 Contents:
 
 .. toctree::

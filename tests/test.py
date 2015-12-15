@@ -1,4 +1,5 @@
-"""Module implements some tests (namely, for operations and for conversions).
+"""
+Module implements some tests (namely, for operations, conversions, and expressions).
 """
 
 from random import randint, choice
