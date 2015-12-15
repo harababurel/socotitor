@@ -1,11 +1,19 @@
 Project Summary
 ===============
 
+Requirements
+------------
 
-Statement
----------
+In order to run Socotitor, two dependencies must be installed:
+    * Python (version 3.4 or newer)
+    * Numpy
 
-Socotitor is a Python application that is capable of operating arithmetically on integers represented in arbitrary numeration bases.
+Author
+------
+
+Socotitor was built by Sergiu Puscas, group 917.
+
+Contact at srg.pscs@gmail.com or psie1996@cs.ubbcluj.ro.
 
 Operations
 ----------
