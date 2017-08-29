@@ -6,7 +6,9 @@
              |____/ \___/ \___\___/ \__|_|\__\___/|_|                 
                          operations and conversions in arbitrary bases
 ```
+
 <hr>
+
 ```
 +---------+----------------------------------------------------------+
 | Command |                    Description                           |
@@ -21,7 +23,3 @@
 |    x    | Exit the application.                                    |
 +---------+----------------------------------------------------------+
 ```
-
-# Documentation
-
-Docs should be available at [sergiu.ml/socotitor](http://sergiu.ml/socotitor/).
